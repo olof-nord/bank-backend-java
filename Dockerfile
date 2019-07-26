@@ -1,4 +1,5 @@
 FROM openjdk:11-jre
+MAINTAINER Olof Nord
 
 ARG JAR_FILE=target/backend-1.0.0-SNAPSHOT.jar
 ADD ${JAR_FILE} usr/app/backend.jar

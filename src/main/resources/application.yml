@@ -7,4 +7,19 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: backendPassword
+    driver-class-name: org.postgresql.Driver
 
+---
+
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:h2:mem:backend-test;MVCC=true;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=false;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
