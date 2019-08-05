@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: olof
+      comment: "Setup bank account table"
+      changes:
+        - createTable:
+            tableName: bank_account
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(255)
+              - column:
+                  name: last_name
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(100)
+
+        - rollback:
+            dropTable:
+              tableName: bank_account

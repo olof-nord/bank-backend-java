@@ -1,0 +1,5 @@
+databaseChangeLog:
+
+  - include:
+      file: changelogs/add-account-table.yml
+      relativeToChangelogFile: true

@@ -3,11 +3,17 @@ server:
 spring:
   application:
     name: backend
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yml
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: backendPassword
     driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      use-new-id-generator-mappings: true
 
 ---
 
