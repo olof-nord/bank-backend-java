@@ -1,5 +1,5 @@
 databaseChangeLog:
 
   - include:
-      file: changelogs/add-account-table.yml
+      file: changelogs/add-customer.yml
       relativeToChangelogFile: true

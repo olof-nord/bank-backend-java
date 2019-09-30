@@ -2,10 +2,10 @@ databaseChangeLog:
   - changeSet:
       id: 1
       author: olof
-      comment: "Setup bank account table"
+      comment: "Setup customer"
       changes:
         - createTable:
-            tableName: bank_account
+            tableName: customer
             columns:
               - column:
                   name: id
@@ -22,7 +22,10 @@ databaseChangeLog:
               - column:
                   name: email
                   type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
 
         - rollback:
             dropTable:
-              tableName: bank_account
+              tableName: customer
