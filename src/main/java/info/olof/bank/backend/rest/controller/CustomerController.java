@@ -21,7 +21,7 @@ public class CustomerController {
         this.customerToCustomerResponseMapper = customerToCustomerResponseMapper;
     }
 
-    @GetMapping("/customer/{email}")
+    @GetMapping("/customers/{email}")
     public ResponseEntity<CustomerResponse> getCustomer(@PathVariable String email) {
 
         return customerService.getCustomerByEmail(email)
