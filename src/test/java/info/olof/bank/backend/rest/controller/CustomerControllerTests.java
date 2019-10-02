@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,6 +38,14 @@ public class CustomerControllerTests {
         .email("sven.svensson@gmail.com")
         .build();
 
+    private final static Customer MOCK_CUSTOMER_LISA = Customer
+        .builder()
+        .id(UUID.randomUUID())
+        .firstName("Lisa")
+        .lastName("Svensson")
+        .email("lisa.svensson@gmail.com")
+        .build();
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -51,6 +60,12 @@ public class CustomerControllerTests {
     private void setUpMockData(CustomerService customerService) {
         Mockito.when(customerService.getCustomerByEmail(Mockito.eq(MOCK_CUSTOMER_SVEN.getEmail())))
             .thenReturn(Optional.of(MOCK_CUSTOMER_SVEN));
+
+        Mockito.when(customerService.getCustomerByEmail(Mockito.eq(MOCK_CUSTOMER_LISA.getEmail())))
+            .thenReturn(Optional.of(MOCK_CUSTOMER_LISA));
+
+        Mockito.when(customerService.getCustomers())
+            .thenReturn(Arrays.asList(MOCK_CUSTOMER_SVEN, MOCK_CUSTOMER_LISA));
     }
 
     @Test
@@ -59,6 +74,13 @@ public class CustomerControllerTests {
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
             .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    public void givenGetCustomers_thenReturnWith200AndCustomers() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/customers" ))
+            .andExpect(jsonPath("$.length()", is(2)))
             .andExpect(status().isOk());
     }
 

@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class CustomerController {
@@ -19,6 +21,14 @@ public class CustomerController {
     public CustomerController(CustomerService customerService, CustomerToCustomerResponseMapper customerToCustomerResponseMapper) {
         this.customerService = customerService;
         this.customerToCustomerResponseMapper = customerToCustomerResponseMapper;
+    }
+
+    @GetMapping("/customers")
+    public ResponseEntity<List<CustomerResponse>> getCustomers() {
+
+        return ResponseEntity.ok().body(customerService.getCustomers().stream()
+            .map(customerToCustomerResponseMapper)
+            .collect(Collectors.toList()));
     }
 
     @GetMapping("/customers/{email}")
