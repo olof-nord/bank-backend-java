@@ -1,17 +1,17 @@
 package info.olof.bank.backend.rest.mapper;
 
 import info.olof.bank.backend.model.entity.Customer;
-import info.olof.bank.backend.rest.dto.customer.CustomerResponse;
+import info.olof.bank.backend.rest.dto.customer.CustomerDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
 @Component
-public class CustomerToCustomerResponseMapper implements Function<Customer, CustomerResponse> {
+public class CustomerToCustomerDTOMapper implements Function<Customer, CustomerDTO> {
 
     @Override
-    public CustomerResponse apply(Customer customer) {
-        return CustomerResponse.builder()
+    public CustomerDTO apply(Customer customer) {
+        return CustomerDTO.builder()
             .firstName(customer.getFirstName())
             .lastName(customer.getLastName())
             .email(customer.getEmail())

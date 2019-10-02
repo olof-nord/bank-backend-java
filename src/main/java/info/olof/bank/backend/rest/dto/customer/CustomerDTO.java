@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Builder
-public class CreateCustomerRequest {
+public class CustomerDTO {
 
     @NotNull
     @NotBlank

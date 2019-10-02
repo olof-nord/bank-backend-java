@@ -1,7 +1,8 @@
 package info.olof.bank.backend.rest.controller;
 
 import info.olof.bank.backend.model.entity.Customer;
-import info.olof.bank.backend.rest.mapper.CustomerToCustomerResponseMapper;
+import info.olof.bank.backend.rest.mapper.CustomerDTOToCustomerMapper;
+import info.olof.bank.backend.rest.mapper.CustomerToCustomerDTOMapper;
 import info.olof.bank.backend.service.CustomerService;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
-@Import(CustomerToCustomerResponseMapper.class)
+@Import({
+    CustomerToCustomerDTOMapper.class,
+    CustomerDTOToCustomerMapper.class
+})
 @WebMvcTest(controllers = CustomerController.class)
 public class CustomerControllerTests {
 
@@ -70,7 +74,7 @@ public class CustomerControllerTests {
 
     @Test
     public void givenGetCustomer_whenCustomerExist_thenReturnWith200AndCustomer() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/customer/" + MOCK_CUSTOMER_SVEN.getEmail()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/customers/" + MOCK_CUSTOMER_SVEN.getEmail()))
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
             .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))

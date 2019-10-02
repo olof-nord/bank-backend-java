@@ -28,4 +28,8 @@ public class CustomerService {
     public Optional<Customer> getCustomerByEmail(String email) {
         return customerRepository.findOneByEmail(email);
     }
+
+    public Customer addCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
 }
