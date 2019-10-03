@@ -13,9 +13,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -50,6 +52,14 @@ public class CustomerControllerTests {
         .email("lisa.svensson@gmail.com")
         .build();
 
+
+    private final static String VALID_CREATE_USER_REQUEST_SVEN_JSON =
+        "{"
+        + "    \"firstName\": \"Sven\","
+        + "    \"lastName\": \"Svensson\","
+        + "    \"email\" : \"sven.svensson@gmail.com\""
+        + "}";
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -70,11 +80,15 @@ public class CustomerControllerTests {
 
         Mockito.when(customerService.getCustomers())
             .thenReturn(Arrays.asList(MOCK_CUSTOMER_SVEN, MOCK_CUSTOMER_LISA));
+
+        Mockito.when(customerService.addCustomer(Mockito.any(Customer.class)))
+            .thenReturn(MOCK_CUSTOMER_SVEN);
     }
 
     @Test
     public void givenGetCustomer_whenCustomerExist_thenReturnWith200AndCustomer() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/customers/" + MOCK_CUSTOMER_SVEN.getEmail()))
+            .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
             .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))
@@ -84,7 +98,21 @@ public class CustomerControllerTests {
     @Test
     public void givenGetCustomers_thenReturnWith200AndCustomers() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/customers" ))
+            .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.length()", is(2)))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    public void givenPostCustomer_thenReturnWith200AndCustomer() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/customers")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(VALID_CREATE_USER_REQUEST_SVEN_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
+            .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
+            .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))
             .andExpect(status().isOk());
     }
 
