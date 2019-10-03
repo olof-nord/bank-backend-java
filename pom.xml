@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>info.olof.bank</groupId>
-	<artifactId>backend</artifactId>
+	<artifactId>fake-bank-backend</artifactId>
 	<version>1.0.0</version>
-	<name>backend</name>
+	<name>fake-bank-backend</name>
 	<description>Backend part of Fake Bank project</description>
 
 	<properties>
@@ -89,9 +89,10 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>fake-bank-backend</repository>
+					<repository>${project.name}</repository>
 					<buildArgs>
-						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                        <APP_VERSION>${project.version}</APP_VERSION>
+                        <APP_NAME>${project.name}</APP_NAME>
 					</buildArgs>
 				</configuration>
 			</plugin>

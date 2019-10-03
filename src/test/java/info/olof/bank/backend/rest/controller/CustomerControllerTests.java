@@ -96,6 +96,13 @@ public class CustomerControllerTests {
     }
 
     @Test
+    public void givenGetCustomer_whenCustomerDoesNotExist_thenReturnWith404() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/customers/" + "not-exist"))
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void givenGetCustomers_thenReturnWith200AndCustomers() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/customers" ))
             .andDo(MockMvcResultHandlers.print())
@@ -104,7 +111,7 @@ public class CustomerControllerTests {
     }
 
     @Test
-    public void givenPostCustomer_thenReturnWith200AndCustomer() throws Exception {
+    public void givenPostCustomer_thenReturnWith201AndCustomer() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/customers")
             .contentType(MediaType.APPLICATION_JSON)
             .content(VALID_CREATE_USER_REQUEST_SVEN_JSON)
@@ -113,7 +120,7 @@ public class CustomerControllerTests {
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
             .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
     }
 
 }

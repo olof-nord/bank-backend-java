@@ -6,6 +6,7 @@ import info.olof.bank.backend.rest.mapper.CustomerToCustomerDTOMapper;
 import info.olof.bank.backend.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +47,10 @@ public class CustomerController {
 
         LOGGER.info("addCustomer request: firstName: {}, lastName: {}, email: {}", request.getFirstName(), request.getLastName(), request.getEmail());
 
-        return ResponseEntity.ok().body(customerToCustomerDTOMapper.apply(
-            customerService.addCustomer(customerDTOToCustomerMapper.apply(request))
-        ));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(customerToCustomerDTOMapper.apply(
+                customerService.addCustomer(customerDTOToCustomerMapper.apply(request)))
+            );
     }
 
     @GetMapping("/customers/{email}")
@@ -58,7 +60,7 @@ public class CustomerController {
 
         return customerService.getCustomerByEmail(email)
             .map(customer -> ResponseEntity.ok().body(customerToCustomerDTOMapper.apply(customer)))
-            .orElse(ResponseEntity.of(Optional.of(CustomerDTO.builder().build())));
+            .orElse(ResponseEntity.notFound().build());
     }
 
 }
