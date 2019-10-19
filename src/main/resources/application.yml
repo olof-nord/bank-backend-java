@@ -2,11 +2,11 @@ server:
   port: 8080
 spring:
   application:
-    name: backend
+    name: fake-bank-backend
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yml
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://fake-bank-backend-database:5432/fake-bank-backend?currentSchema=fake-bank-backend
     username: postgres
     password: backendPassword
     driver-class-name: org.postgresql.Driver
@@ -20,7 +20,7 @@ spring:
 spring:
   profiles: test
   datasource:
-    url: jdbc:h2:mem:backend-test;MVCC=true;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=false;
+    url: jdbc:h2:mem:fake-bank-backend-test;MVCC=true;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=false;
     username: sa
     password:
     driver-class-name: org.h2.Driver
