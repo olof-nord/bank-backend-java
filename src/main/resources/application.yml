@@ -6,15 +6,20 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yml
   datasource:
-    url: jdbc:postgresql://fake-bank-backend-database:5432/fake-bank-backend?currentSchema=fake-bank-backend
-    username: postgres
+    url: jdbc:postgresql://fake-bank-backend-database:5432/fake-bank-backend
+    username: fake-bank-backend
     password: backendPassword
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: validate
       use-new-id-generator-mappings: true
-
+    # https://github.com/pgjdbc/pgjdbc/issues/1102
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
 ---
 
 spring:
@@ -29,3 +34,12 @@ spring:
       enabled: true
       settings:
         web-allow-others: true
+
+---
+
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fake-bank-backend
+    username: fake-bank-backend
+    password: backendPassword
