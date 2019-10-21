@@ -20,6 +20,15 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+
 ---
 
 spring:
