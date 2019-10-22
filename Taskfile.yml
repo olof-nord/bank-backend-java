@@ -1,0 +1,10 @@
+version: '2'
+
+tasks:
+  build_docker_minikube:
+    desc: Build a docker image in Minikube
+    cmds:
+      - >
+        eval $(minikube docker-env);
+        docker build -t fake-bank-backend:latest .;
+        eval $(minikube docker-env -u)
