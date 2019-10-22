@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Arrays;
@@ -24,6 +23,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,10 +56,10 @@ public class CustomerControllerTests {
 
     private final static String VALID_CREATE_USER_REQUEST_SVEN_JSON =
         "{"
-        + "    \"firstName\": \"Sven\","
-        + "    \"lastName\": \"Svensson\","
-        + "    \"email\" : \"sven.svensson@gmail.com\""
-        + "}";
+            + "    \"firstName\": \"Sven\","
+            + "    \"lastName\": \"Svensson\","
+            + "    \"email\" : \"sven.svensson@gmail.com\""
+            + "}";
 
     @Autowired
     private MockMvc mockMvc;
@@ -87,7 +88,9 @@ public class CustomerControllerTests {
 
     @Test
     public void givenGetCustomer_whenCustomerExist_thenReturnWith200AndCustomer() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/customers/" + MOCK_CUSTOMER_SVEN.getEmail()))
+        mockMvc.perform(get("/customers/" + MOCK_CUSTOMER_SVEN.getEmail())
+            .contentType(MediaType.APPLICATION_JSON))
+
             .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
             .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
@@ -97,14 +100,18 @@ public class CustomerControllerTests {
 
     @Test
     public void givenGetCustomer_whenCustomerDoesNotExist_thenReturnWith404() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/customers/" + "not-exist"))
+        mockMvc.perform(get("/customers/" + "not-exist")
+            .contentType(MediaType.APPLICATION_JSON))
+
             .andDo(MockMvcResultHandlers.print())
             .andExpect(status().isNotFound());
     }
 
     @Test
     public void givenGetCustomers_thenReturnWith200AndCustomers() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/customers" ))
+        mockMvc.perform(get("/customers")
+            .contentType(MediaType.APPLICATION_JSON))
+
             .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.length()", is(2)))
             .andExpect(status().isOk());
@@ -112,10 +119,11 @@ public class CustomerControllerTests {
 
     @Test
     public void givenPostCustomer_thenReturnWith201AndCustomer() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/customers")
+        mockMvc.perform(post("/customers")
             .contentType(MediaType.APPLICATION_JSON)
             .content(VALID_CREATE_USER_REQUEST_SVEN_JSON)
             .accept(MediaType.APPLICATION_JSON))
+
             .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
             .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
