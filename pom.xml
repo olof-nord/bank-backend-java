@@ -152,7 +152,7 @@
                             <generateSupportingFiles>false</generateSupportingFiles>
 
                             <groupId>${project.groupId}.generated</groupId>
-                            <artifactId>${project.artifactId}.generated</artifactId>
+                            <artifactId>${project.artifactId}-generated</artifactId>
                             <modelPackage>${project.groupId}.generated.model</modelPackage>
                             <modelNameSuffix>DTO</modelNameSuffix>
 
