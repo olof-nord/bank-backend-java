@@ -1,7 +1,7 @@
 package info.olof.bank.backend.rest.mapper;
 
 import info.olof.bank.backend.model.entity.Customer;
-import info.olof.bank.backend.rest.dto.customer.CustomerDTO;
+import info.olof.bank.backend.generated.dto.CustomerDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

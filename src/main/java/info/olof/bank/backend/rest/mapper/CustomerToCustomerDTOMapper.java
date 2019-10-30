@@ -1,7 +1,7 @@
 package info.olof.bank.backend.rest.mapper;
 
 import info.olof.bank.backend.model.entity.Customer;
-import info.olof.bank.backend.rest.dto.customer.CustomerDTO;
+import info.olof.bank.backend.generated.dto.CustomerDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
@@ -11,10 +11,9 @@ public class CustomerToCustomerDTOMapper implements Function<Customer, CustomerD
 
     @Override
     public CustomerDTO apply(Customer customer) {
-        return CustomerDTO.builder()
+        return new CustomerDTO()
             .firstName(customer.getFirstName())
             .lastName(customer.getLastName())
-            .email(customer.getEmail())
-            .build();
+            .email(customer.getEmail());
     }
 }

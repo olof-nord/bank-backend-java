@@ -1,9 +1,9 @@
 package info.olof.bank.backend.rest.controller;
 
-import info.olof.bank.backend.rest.dto.customer.CustomerDTO;
 import info.olof.bank.backend.rest.mapper.CustomerDTOToCustomerMapper;
 import info.olof.bank.backend.rest.mapper.CustomerToCustomerDTOMapper;
 import info.olof.bank.backend.service.CustomerService;
+import info.olof.bank.backend.generated.dto.CustomerDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

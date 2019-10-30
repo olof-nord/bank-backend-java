@@ -151,13 +151,15 @@
                             <generateModelTests>false</generateModelTests>
                             <generateSupportingFiles>false</generateSupportingFiles>
 
-                            <groupId>${project.groupId}.generated</groupId>
+                            <groupId>${project.groupId}.backend.generated</groupId>
                             <artifactId>${project.artifactId}-generated</artifactId>
-                            <modelPackage>${project.groupId}.generated.model</modelPackage>
+                            <modelPackage>${project.groupId}.backend.generated.dto</modelPackage>
                             <modelNameSuffix>DTO</modelNameSuffix>
 
                             <configOptions>
                                 <dateLibrary>java8</dateLibrary>
+                                <useBeanValidation>true</useBeanValidation>
+                                <performBeanValidation>true</performBeanValidation>
                             </configOptions>
                         </configuration>
                     </execution>
