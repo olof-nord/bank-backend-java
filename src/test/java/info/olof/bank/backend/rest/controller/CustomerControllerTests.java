@@ -58,8 +58,10 @@ public class CustomerControllerTests {
         "{"
             + "    \"firstName\": \"Sven\","
             + "    \"lastName\": \"Svensson\","
-            + "    \"email\" : \"sven.svensson@gmail.com\""
-            + "}";
+            + "    \"email\" : \"sven.svensson@gmail.com\","
+            + "    \"dateOfBirth\" : \"1970-01-01\","
+            + "    \"nationality\" : \"German\""
+        + "}";
 
     @Autowired
     private MockMvc mockMvc;
