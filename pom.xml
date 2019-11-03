@@ -169,6 +169,7 @@
                             <inputSpec>${project.build.directory}/api/customer.yaml</inputSpec>
                             <generatorName>java</generatorName>
                             <library>resttemplate</library>
+                            <strictSpec>true</strictSpec>
 
                             <generateApis>false</generateApis>
                             <generateModels>true</generateModels>
@@ -185,6 +186,7 @@
                                 <dateLibrary>java8</dateLibrary>
                                 <useBeanValidation>true</useBeanValidation>
                                 <performBeanValidation>true</performBeanValidation>
+                                <sourceFolder>generated</sourceFolder>
                             </configOptions>
                         </configuration>
                     </execution>
