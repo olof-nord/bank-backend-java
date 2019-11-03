@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,7 +42,7 @@ public class CustomerController {
     @PostMapping("/customers")
     public ResponseEntity<CustomerDTO> addCustomer(@RequestBody @Valid CustomerDTO request) {
 
-        LOGGER.info("addCustomer request: firstName: {}, lastName: {}, email: {}", request.getFirstName(), request.getLastName(), request.getEmail());
+        LOGGER.info("addCustomer request: {}", request.toString());
 
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(customerMapper.customerToCustomerDTO(
@@ -49,12 +50,12 @@ public class CustomerController {
             );
     }
 
-    @GetMapping("/customers/{email}")
-    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable String email) {
+    @GetMapping("/customers/{id}")
+    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable String id) {
 
-        LOGGER.info("getCustomer request: email: {}", email);
+        LOGGER.info("getCustomer request: id: {}", id);
 
-        return customerService.getCustomerByEmail(email)
+        return customerService.getCustomerById(UUID.fromString(id))
             .map(customer -> ResponseEntity.ok().body(customerMapper.customerToCustomerDTO(customer)))
             .orElse(ResponseEntity.notFound().build());
     }

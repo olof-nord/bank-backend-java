@@ -73,10 +73,10 @@ public class CustomerControllerTests {
     }
 
     private void setUpMockData(CustomerService customerService) {
-        Mockito.when(customerService.getCustomerByEmail(Mockito.eq(MOCK_CUSTOMER_SVEN.getEmail())))
+        Mockito.when(customerService.getCustomerById(Mockito.eq(MOCK_CUSTOMER_SVEN.getId())))
             .thenReturn(Optional.of(MOCK_CUSTOMER_SVEN));
 
-        Mockito.when(customerService.getCustomerByEmail(Mockito.eq(MOCK_CUSTOMER_LISA.getEmail())))
+        Mockito.when(customerService.getCustomerById(Mockito.eq(MOCK_CUSTOMER_LISA.getId())))
             .thenReturn(Optional.of(MOCK_CUSTOMER_LISA));
 
         Mockito.when(customerService.getCustomers())
@@ -88,7 +88,7 @@ public class CustomerControllerTests {
 
     @Test
     public void givenGetCustomer_whenCustomerExist_thenReturnWith200AndCustomer() throws Exception {
-        mockMvc.perform(get("/customers/" + MOCK_CUSTOMER_SVEN.getEmail())
+        mockMvc.perform(get("/customers/" + MOCK_CUSTOMER_SVEN.getId())
             .contentType(MediaType.APPLICATION_JSON))
 
             .andDo(MockMvcResultHandlers.print())
@@ -100,7 +100,7 @@ public class CustomerControllerTests {
 
     @Test
     public void givenGetCustomer_whenCustomerDoesNotExist_thenReturnWith404() throws Exception {
-        mockMvc.perform(get("/customers/" + "not-exist")
+        mockMvc.perform(get("/customers/" + UUID.randomUUID())
             .contentType(MediaType.APPLICATION_JSON))
 
             .andDo(MockMvcResultHandlers.print())

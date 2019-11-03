@@ -21,7 +21,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomer(UUID id) {
+    public Optional<Customer> getCustomerById(UUID id) {
         return customerRepository.findById(id);
     }
 

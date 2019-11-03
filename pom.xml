@@ -183,7 +183,7 @@
                             <modelNameSuffix>DTO</modelNameSuffix>
 
                             <configOptions>
-                                <dateLibrary>java8</dateLibrary>
+                                <dateLibrary>java8-localdatetime</dateLibrary>
                                 <useBeanValidation>true</useBeanValidation>
                                 <performBeanValidation>true</performBeanValidation>
                                 <sourceFolder>generated</sourceFolder>
