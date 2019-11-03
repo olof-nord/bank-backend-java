@@ -12,20 +12,81 @@ databaseChangeLog:
                   type: uuid
                   constraints:
                     primaryKey: true
+                    primaryKeyName: pk_customer
                     nullable: false
               - column:
                   name: first_name
                   type: varchar(255)
+                  constraints:
+                    nullable: false
               - column:
                   name: last_name
                   type: varchar(255)
+                  constraints:
+                    nullable: false
               - column:
                   name: email
                   type: varchar(100)
                   constraints:
                     nullable: false
                     unique: true
+              - column:
+                  name: date_of_birth
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nationality
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_address
+                    nullable: false
+              - column:
+                  name: customer_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_address
+                    references: customer(id)
+                    nullable: false
+              - column:
+                  name: alias
+                  type: varchar(255)
+              - column:
+                  name: street_and_number
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: additional_information
+                  type: varchar(255)
+              - column:
+                  name: postcode
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: country
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
 
         - rollback:
-            dropTable:
-              tableName: customer
+            - dropTable:
+                tableName: customer
+            - dropTable:
+                tableName: address
