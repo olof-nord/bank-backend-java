@@ -1,9 +1,8 @@
 package info.olof.bank.backend.rest.controller;
 
-import info.olof.bank.backend.rest.mapper.CustomerDTOToCustomerMapper;
-import info.olof.bank.backend.rest.mapper.CustomerToCustomerDTOMapper;
-import info.olof.bank.backend.service.CustomerService;
 import info.olof.bank.backend.generated.dto.CustomerDTO;
+import info.olof.bank.backend.rest.mapper.CustomerMapperImpl;
+import info.olof.bank.backend.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,13 +21,11 @@ public class CustomerController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
     private final CustomerService customerService;
-    private final CustomerToCustomerDTOMapper customerToCustomerDTOMapper;
-    private final CustomerDTOToCustomerMapper customerDTOToCustomerMapper;
+    private final CustomerMapperImpl customerMapper;
 
-    public CustomerController(CustomerService customerService, CustomerToCustomerDTOMapper customerToCustomerDTOMapper, CustomerDTOToCustomerMapper customerDTOToCustomerMapper) {
+    public CustomerController(CustomerService customerService, CustomerMapperImpl customerMapper) {
         this.customerService = customerService;
-        this.customerToCustomerDTOMapper = customerToCustomerDTOMapper;
-        this.customerDTOToCustomerMapper = customerDTOToCustomerMapper;
+        this.customerMapper = customerMapper;
     }
 
     @GetMapping("/customers")
@@ -37,7 +34,7 @@ public class CustomerController {
         LOGGER.info("getCustomers request");
 
         return ResponseEntity.ok().body(customerService.getCustomers().stream()
-            .map(customerToCustomerDTOMapper)
+            .map(customerMapper::customerToCustomerDTO)
             .collect(Collectors.toList()));
     }
 
@@ -47,8 +44,8 @@ public class CustomerController {
         LOGGER.info("addCustomer request: firstName: {}, lastName: {}, email: {}", request.getFirstName(), request.getLastName(), request.getEmail());
 
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(customerToCustomerDTOMapper.apply(
-                customerService.addCustomer(customerDTOToCustomerMapper.apply(request)))
+            .body(customerMapper.customerToCustomerDTO(
+                customerService.addCustomer(customerMapper.customerDTOToCustomer(request)))
             );
     }
 
@@ -58,7 +55,7 @@ public class CustomerController {
         LOGGER.info("getCustomer request: email: {}", email);
 
         return customerService.getCustomerByEmail(email)
-            .map(customer -> ResponseEntity.ok().body(customerToCustomerDTOMapper.apply(customer)))
+            .map(customer -> ResponseEntity.ok().body(customerMapper.customerToCustomerDTO(customer)))
             .orElse(ResponseEntity.notFound().build());
     }
 

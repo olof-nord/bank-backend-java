@@ -1,8 +1,7 @@
 package info.olof.bank.backend.rest.controller;
 
 import info.olof.bank.backend.model.entity.Customer;
-import info.olof.bank.backend.rest.mapper.CustomerDTOToCustomerMapper;
-import info.olof.bank.backend.rest.mapper.CustomerToCustomerDTOMapper;
+import info.olof.bank.backend.rest.mapper.CustomerMapperImpl;
 import info.olof.bank.backend.service.CustomerService;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,8 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 @Import({
-    CustomerToCustomerDTOMapper.class,
-    CustomerDTOToCustomerMapper.class
+    CustomerMapperImpl.class
 })
 @WebMvcTest(controllers = CustomerController.class)
 public class CustomerControllerTests {
