@@ -15,6 +15,12 @@ databaseChangeLog:
                     primaryKeyName: pk_customer
                     nullable: false
               - column:
+                  name: created
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+                  constraints:
+                    nullable: false
+              - column:
                   name: first_name
                   type: varchar(255)
                   constraints:
@@ -57,6 +63,12 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_address
                     references: customer(id)
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+                  constraints:
                     nullable: false
               - column:
                   name: alias

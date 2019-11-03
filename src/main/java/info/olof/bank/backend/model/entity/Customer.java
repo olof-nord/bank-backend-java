@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,6 +22,8 @@ public class Customer {
     @GenericGenerator(name = "uuid4", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(nullable = false, unique = true, columnDefinition = "uuid")
     private UUID id;
+
+    private LocalDateTime created;
 
     private String firstName;
 
