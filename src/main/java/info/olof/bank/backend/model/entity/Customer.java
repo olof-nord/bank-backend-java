@@ -38,4 +38,9 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<Address> addresses;
+
+    @PrePersist
+    void createdAt() {
+        this.created = LocalDateTime.now();
+    }
 }

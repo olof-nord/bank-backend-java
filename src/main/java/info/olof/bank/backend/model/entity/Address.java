@@ -37,4 +37,9 @@ public class Address {
     @ManyToOne
     private Customer customer;
 
+    @PrePersist
+    void createdAt() {
+        this.created = LocalDateTime.now();
+    }
+
 }

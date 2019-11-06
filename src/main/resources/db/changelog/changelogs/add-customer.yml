@@ -16,8 +16,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: created
-                  type: timestamp
-                  defaultValueComputed: current_timestamp
+                  type: datetime
                   constraints:
                     nullable: false
               - column:
@@ -66,8 +65,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: created
-                  type: timestamp
-                  defaultValueComputed: current_timestamp
+                  type: datetime
                   constraints:
                     nullable: false
               - column:
