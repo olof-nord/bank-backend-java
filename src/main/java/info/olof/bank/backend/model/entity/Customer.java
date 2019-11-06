@@ -20,7 +20,6 @@ public class Customer {
     @Id
     @GeneratedValue(generator = "uuid4")
     @GenericGenerator(name = "uuid4", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(nullable = false, unique = true, columnDefinition = "uuid")
     private UUID id;
 
     private LocalDateTime created;
