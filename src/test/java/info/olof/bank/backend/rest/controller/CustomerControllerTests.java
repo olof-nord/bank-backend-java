@@ -1,5 +1,6 @@
 package info.olof.bank.backend.rest.controller;
 
+import info.olof.bank.backend.exception.ResourceNotFoundException;
 import info.olof.bank.backend.model.entity.Customer;
 import info.olof.bank.backend.rest.mapper.CustomerMapperImpl;
 import info.olof.bank.backend.service.CustomerService;
@@ -15,10 +16,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
@@ -51,6 +50,7 @@ public class CustomerControllerTests {
         .email("lisa.svensson@gmail.com")
         .build();
 
+    private final static UUID CUSTOMER_NOT_FOUND = UUID.fromString("6512395f-d721-474d-86f3-57964a7b9c04");
 
     private final static String VALID_CREATE_USER_REQUEST_SVEN_JSON =
         "{"
@@ -74,10 +74,13 @@ public class CustomerControllerTests {
 
     private void setUpMockData(CustomerService customerService) {
         Mockito.when(customerService.getCustomerById(Mockito.eq(MOCK_CUSTOMER_SVEN.getId())))
-            .thenReturn(Optional.of(MOCK_CUSTOMER_SVEN));
+            .thenReturn(MOCK_CUSTOMER_SVEN);
 
         Mockito.when(customerService.getCustomerById(Mockito.eq(MOCK_CUSTOMER_LISA.getId())))
-            .thenReturn(Optional.of(MOCK_CUSTOMER_LISA));
+            .thenReturn(MOCK_CUSTOMER_LISA);
+
+        Mockito.when(customerService.getCustomerById(Mockito.eq(CUSTOMER_NOT_FOUND)))
+            .thenThrow(new ResourceNotFoundException());
 
         Mockito.when(customerService.getCustomers())
             .thenReturn(Arrays.asList(MOCK_CUSTOMER_SVEN, MOCK_CUSTOMER_LISA));
@@ -91,7 +94,6 @@ public class CustomerControllerTests {
         mockMvc.perform(get("/customers/" + MOCK_CUSTOMER_SVEN.getId())
             .contentType(MediaType.APPLICATION_JSON))
 
-            .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
             .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))
@@ -100,10 +102,9 @@ public class CustomerControllerTests {
 
     @Test
     public void givenGetCustomer_whenCustomerDoesNotExist_thenReturnWith404() throws Exception {
-        mockMvc.perform(get("/customers/" + UUID.randomUUID())
+        mockMvc.perform(get("/customers/" + CUSTOMER_NOT_FOUND)
             .contentType(MediaType.APPLICATION_JSON))
 
-            .andDo(MockMvcResultHandlers.print())
             .andExpect(status().isNotFound());
     }
 
@@ -112,7 +113,6 @@ public class CustomerControllerTests {
         mockMvc.perform(get("/customers")
             .contentType(MediaType.APPLICATION_JSON))
 
-            .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.length()", is(2)))
             .andExpect(status().isOk());
     }
@@ -124,7 +124,6 @@ public class CustomerControllerTests {
             .content(VALID_CREATE_USER_REQUEST_SVEN_JSON)
             .accept(MediaType.APPLICATION_JSON))
 
-            .andDo(MockMvcResultHandlers.print())
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
             .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))

@@ -34,7 +34,8 @@ public class CustomerController {
 
         LOGGER.info("getCustomers request");
 
-        return ResponseEntity.ok().body(customerService.getCustomers().stream()
+        return ResponseEntity.ok()
+            .body(customerService.getCustomers().stream()
             .map(customerMapper::customerToCustomerDTO)
             .collect(Collectors.toList()));
     }
@@ -50,14 +51,14 @@ public class CustomerController {
             );
     }
 
-    @GetMapping("/customers/{id}")
-    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable String id) {
+    @GetMapping("/customers/{customerId}")
+    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable String customerId) {
 
-        LOGGER.info("getCustomer request: id: {}", id);
+        LOGGER.info("getCustomer request: customerId: {}", customerId);
 
-        return customerService.getCustomerById(UUID.fromString(id))
-            .map(customer -> ResponseEntity.ok().body(customerMapper.customerToCustomerDTO(customer)))
-            .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok()
+            .body(customerMapper.customerToCustomerDTO(
+                customerService.getCustomerById(UUID.fromString(customerId))));
     }
 
 }

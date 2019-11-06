@@ -1,11 +1,11 @@
 package info.olof.bank.backend.service;
 
+import info.olof.bank.backend.exception.ResourceNotFoundException;
 import info.olof.bank.backend.model.entity.Customer;
 import info.olof.bank.backend.model.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,12 +21,14 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomerById(UUID id) {
-        return customerRepository.findById(id);
+    public Customer getCustomerById(UUID id) {
+        return customerRepository.findById(id)
+            .orElseThrow(ResourceNotFoundException::new);
     }
 
-    public Optional<Customer> getCustomerByEmail(String email) {
-        return customerRepository.findOneByEmail(email);
+    public Customer getCustomerByEmail(String email) {
+        return customerRepository.findOneByEmail(email)
+            .orElseThrow(ResourceNotFoundException::new);
     }
 
     public Customer addCustomer(Customer customer) {
