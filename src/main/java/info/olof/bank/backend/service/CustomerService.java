@@ -22,7 +22,7 @@ public class CustomerService {
     }
 
     public Customer getCustomerById(UUID id) {
-        return customerRepository.findById(id)
+        return customerRepository.findOneById(id)
             .orElseThrow(ResourceNotFoundException::new);
     }
 
