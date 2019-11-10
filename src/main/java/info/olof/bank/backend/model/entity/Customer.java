@@ -39,7 +39,7 @@ public class Customer {
     private Set<Address> addresses;
 
     @PrePersist
-    void createdAt() {
+    private void createdAt() {
         this.created = LocalDateTime.now();
     }
 }

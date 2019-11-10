@@ -2,65 +2,100 @@ package info.olof.bank.backend.rest.mapper;
 
 import info.olof.bank.backend.generated.dto.CustomerDTO;
 import info.olof.bank.backend.model.entity.Customer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Import({
     CustomerMapperImpl.class
 })
 public class CustomerMapperTests {
 
-    private static UUID UUID_SVEN = UUID.randomUUID();
-
-    private Customer customer = Customer
-        .builder()
-        .id(UUID_SVEN)
-        .firstName("Sven")
-        .lastName("Svensson")
-        .email("sven.svensson@gmail.com")
-        .build();
-
-    private CustomerDTO customerDTO = new CustomerDTO();
-
     @Autowired
     private CustomerMapperImpl customerMapper;
 
-    @Before
-    public void setUp() {
-        customerDTO.setId(UUID_SVEN);
-        customerDTO.setFirstName("Sven");
-        customerDTO.setLastName("Svensson");
-        customerDTO.setEmail("sven.svensson@gmail.com");
+    @SuppressWarnings("unused")
+    private static Stream<Arguments> provideTestCustomers() {
+        return Stream.of(
+            Arguments.of(Customer.builder()
+                .id(UUID.randomUUID())
+                .created(LocalDateTime.now())
+                .firstName("Sven")
+                .lastName("Svensson")
+                .email("sven.svensson@gmail.com")
+                .dateOfBirth(LocalDate.of(1970, 1, 1))
+                .nationality("German")
+                .build()
+            ),
+            Arguments.of(Customer.builder()
+                .id(UUID.randomUUID())
+                .created(LocalDateTime.now())
+                .firstName("Lisa")
+                .lastName("Svensson")
+                .email("lisa.svensson@gmail.com")
+                .dateOfBirth(LocalDate.of(1980, 1, 1))
+                .nationality("Swedish")
+                .build()
+            )
+        );
     }
 
-    @Test
-    public void givenMapCustomerDTO_thenMapAllFields() {
-        Customer sut = customerMapper.customerDTOToCustomer(customerDTO);
-
-        assertEquals(sut.getId(), customerDTO.getId());
-        assertEquals(sut.getFirstName(), customerDTO.getFirstName());
-        assertEquals(sut.getLastName(), customerDTO.getLastName());
-        assertEquals(sut.getEmail(), customerDTO.getEmail());
-
+    @SuppressWarnings("unused")
+    private static Stream<Arguments> provideTestCustomerDTOs() {
+        return Stream.of(
+            Arguments.of(new CustomerDTO()
+                .firstName("Sven")
+                .lastName("Svensson")
+                .email("sven.svensson@gmail.com")
+                .dateOfBirth(LocalDate.of(1970, 1, 1))
+                .nationality("German")
+            ),
+            Arguments.of(new CustomerDTO()
+                .firstName("Lisa")
+                .lastName("Svensson")
+                .email("lisa.svensson@gmail.com")
+                .dateOfBirth(LocalDate.of(1980, 1, 1))
+            )
+        );
     }
 
-    @Test
-    public void givenMapCustomer_thenMapAllFields() {
-        CustomerDTO sut = customerMapper.customerToCustomerDTO(customer);
+    @ParameterizedTest
+    @MethodSource("provideTestCustomers")
+    void givenCustomer_thenMap_CustomerDTO(Customer customer) {
 
-        assertEquals(sut.getId(), customerDTO.getId());
-        assertEquals(sut.getFirstName(), customerDTO.getFirstName());
-        assertEquals(sut.getLastName(), customerDTO.getLastName());
-        assertEquals(sut.getEmail(), customerDTO.getEmail());
+        CustomerDTO dto = customerMapper.customerToCustomerDTO(customer);
 
+        assertEquals(dto.getId(), customer.getId());
+        assertEquals(dto.getFirstName(), customer.getFirstName());
+        assertEquals(dto.getLastName(), customer.getLastName());
+        assertEquals(dto.getEmail(), customer.getEmail());
+        assertEquals(dto.getDateOfBirth(), customer.getDateOfBirth());
+        assertEquals(dto.getNationality(), customer.getNationality());
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideTestCustomerDTOs")
+    void givenCustomerDTO_thenMap_Customer(CustomerDTO customerDTO) {
+
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+
+        assertEquals(customer.getId(), customerDTO.getId());
+        assertEquals(customer.getFirstName(), customerDTO.getFirstName());
+        assertEquals(customer.getLastName(), customerDTO.getLastName());
+        assertEquals(customer.getEmail(), customerDTO.getEmail());
+        assertEquals(customer.getDateOfBirth(), customerDTO.getDateOfBirth());
+        assertEquals(customer.getNationality(), customerDTO.getNationality());
     }
 }
