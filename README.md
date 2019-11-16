@@ -14,3 +14,6 @@ Fake Bank - Java/Spring Boot Backend
 * Helm (https://helm.sh)
 * Task (https://taskfile.dev)
 * Skaffold (https://skaffold.dev)
+
+# Start
+`skaffold dev --port-forward`

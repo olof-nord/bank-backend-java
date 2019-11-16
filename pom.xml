@@ -116,9 +116,17 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>1.7.0</version>
                 <configuration>
+                    <from>
+                        <image>openjdk:11-jre</image>
+                    </from>
                     <to>
-                        <image>${project.name}</image>
+                        <image>${project.name}-jib</image>
                     </to>
+                    <container>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                    </container>
                 </configuration>
             </plugin>
             <plugin>

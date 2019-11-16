@@ -5,14 +5,22 @@ metadata:
 
 build:
   artifacts:
-    - image: fake-bank-backend
-      jib: {}
+    - image: fake-bank-backend-jib
+      jib:
+        type: maven
 
 deploy:
   helm:
     releases:
       - name: fake-bank-backend
         chartPath: deployment
-        namespace: default
+        wait: true
+        namespace: fake-bank
         valuesFiles:
           - deployment/values.yaml
+
+portForward:
+  - resourceType: deployment
+    resourceName: fake-bank-backend
+    namespace: fake-bank
+    port: 8080
