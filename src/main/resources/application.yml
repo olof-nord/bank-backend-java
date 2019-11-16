@@ -14,12 +14,6 @@ spring:
     hibernate:
       ddl-auto: validate
       use-new-id-generator-mappings: true
-    # https://github.com/pgjdbc/pgjdbc/issues/1102
-    properties:
-      hibernate:
-        jdbc:
-          lob:
-            non_contextual_creation: true
 management:
   endpoints:
     web:
