@@ -1,8 +1,16 @@
 # bank-backend
-Fake Bank - Java Backend
+Fake Bank - Java/Spring Boot Backend
 
-# Software build requirements
+# Requirements
+## Software
 * Java 11
-* Maven
+
+## Environment
 * Docker
+* Minikube
+
+## Tooling
+* Maven
+* Helm (https://helm.sh)
 * Task (https://taskfile.dev)
+* Skaffold (https://skaffold.dev)

@@ -1,0 +1,18 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: fake-bank-backend
+
+build:
+  artifacts:
+    - image: fake-bank-backend
+      jib: {}
+
+deploy:
+  helm:
+    releases:
+      - name: fake-bank-backend
+        chartPath: deployment
+        namespace: default
+        valuesFiles:
+          - deployment/values.yaml

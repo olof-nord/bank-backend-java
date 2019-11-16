@@ -111,31 +111,16 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>dockerfile-maven-plugin</artifactId>
-				<version>1.4.13</version>
-				<executions>
-					<execution>
-						<id>default</id>
-						<phase>install</phase>
-						<goals>
-							<goal>build</goal>
-						</goals>
-						<configuration>
-							<tag>latest</tag>
-							<skipDockerInfo>true</skipDockerInfo>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<repository>${project.name}</repository>
-					<buildArgs>
-                        <APP_VERSION>${project.version}</APP_VERSION>
-                        <APP_NAME>${project.name}</APP_NAME>
-					</buildArgs>
-				</configuration>
-			</plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>1.7.0</version>
+                <configuration>
+                    <to>
+                        <image>${project.name}</image>
+                    </to>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
