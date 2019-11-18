@@ -59,7 +59,7 @@ public class CustomerServiceTests {
     void givenGetCustomers_thenReturnCustomers() {
         List<Customer> customers = customerService.getCustomers();
 
-        assertEquals(customers.size(), 1);
+        assertEquals(1, customers.size());
     }
 
     @Test
