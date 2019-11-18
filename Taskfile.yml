@@ -13,4 +13,4 @@ tasks:
     desc: Build a docker image
     cmds:
       - >
-        docker build -t fake-bank-backend:latest .
+        docker build --no-cache -t fake-bank-backend:latest .
