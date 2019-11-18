@@ -1,9 +1,9 @@
-${Ansi.BLUE}########    ###    ##    ## ########    ########     ###    ##    ## ##    ##
-${Ansi.BLUE}##         ## ##   ##   ##  ##          ##     ##   ## ##   ###   ## ##   ##
-${Ansi.BLUE}##        ##   ##  ##  ##   ##          ##     ##  ##   ##  ####  ## ##  ##
-${Ansi.BLUE}######   ##     ## #####    ######      ########  ##     ## ## ## ## #####
-${Ansi.BLUE}##       ######### ##  ##   ##          ##     ## ######### ##  #### ##  ##
-${Ansi.BLUE}##       ##     ## ##   ##  ##          ##     ## ##     ## ##   ### ##   ##
-${Ansi.BLUE}##       ##     ## ##    ## ########    ########  ##     ## ##    ## ##    ##
+${AnsiColor.BLUE}########    ###    ##    ## ########    ########     ###    ##    ## ##    ##
+${AnsiColor.BLUE}##         ## ##   ##   ##  ##          ##     ##   ## ##   ###   ## ##   ##
+${AnsiColor.BLUE}##        ##   ##  ##  ##   ##          ##     ##  ##   ##  ####  ## ##  ##
+${AnsiColor.BLUE}######   ##     ## #####    ######      ########  ##     ## ## ## ## #####
+${AnsiColor.BLUE}##       ######### ##  ##   ##          ##     ## ######### ##  #### ##  ##
+${AnsiColor.BLUE}##       ##     ## ##   ##  ##          ##     ## ##     ## ##   ### ##   ##
+${AnsiColor.BLUE}##       ##     ## ##    ## ########    ########  ##     ## ##    ## ##    ##
 
-${Ansi.AnsiColor.CYAN} :: Spring Boot App${spring-boot.formatted-version} :: ${Ansi.DEFAULT}
+${AnsiColor.CYAN} :: Spring Boot App${spring-boot.formatted-version} :: ${Ansi.DEFAULT}
