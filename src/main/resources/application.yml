@@ -22,6 +22,8 @@ management:
   endpoint:
     health:
       show-details: always
+    liquibase:
+      enabled: false
 
 ---
 
