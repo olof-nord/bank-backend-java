@@ -42,3 +42,7 @@ Manual delete
 # Debug
 Connect to a container:  
 `kubectl exec -it fake-bank-backend-database-0 bash`
+
+# Authentication
+To authenticate, a token is required.
+
