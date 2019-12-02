@@ -192,7 +192,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>/home/olof/git/fake-bank/bank-api/customer.yaml</inputSpec>
+                            <inputSpec>${project.build.directory}/api/customer.yaml</inputSpec>
                             <generatorName>java</generatorName>
                             <library>resttemplate</library>
                             <strictSpec>true</strictSpec>
