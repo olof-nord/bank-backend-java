@@ -13,9 +13,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -34,7 +38,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     CustomerMapperImpl.class
 })
 @WebMvcTest(controllers = CustomerController.class)
+@ActiveProfiles("test")
 public class CustomerControllerTests {
+
+    private static final String TOKEN_URL = "http://localhost:8180/auth/realms/fake-bank-realm/protocol/openid-connect/token";
 
     private static final Customer MOCK_CUSTOMER_SVEN = Customer
         .builder()
@@ -63,8 +70,10 @@ public class CustomerControllerTests {
             + "    \"nationality\" : \"German\""
         + "}";
 
-    @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private WebApplicationContext context;
 
     @MockBean
     private CustomerService customerService;
@@ -72,6 +81,7 @@ public class CustomerControllerTests {
     @Before
     public void setUp() {
         setUpMockData(customerService);
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     private void setUpMockData(CustomerService customerService) {
@@ -93,7 +103,10 @@ public class CustomerControllerTests {
 
     @Test
     public void givenGetCustomer_whenCustomerExist_thenReturnWith200AndCustomer() throws Exception {
+        // String accessToken = obtainExternalAccessToken();
+
         mockMvc.perform(get("/customers/" + MOCK_CUSTOMER_SVEN.getId())
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + "a45e53e4-e27a-4144-90fb-d3ce7a20e089")
             .contentType(MediaType.APPLICATION_JSON))
 
             .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
@@ -105,6 +118,7 @@ public class CustomerControllerTests {
     @Test
     public void givenGetCustomer_whenCustomerDoesNotExist_thenReturnWith404() throws Exception {
         mockMvc.perform(get("/customers/" + CUSTOMER_NOT_FOUND)
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + "a45e53e4-e27a-4144-90fb-d3ce7a20e089")
             .contentType(MediaType.APPLICATION_JSON))
 
             .andExpect(status().isNotFound());
@@ -113,6 +127,7 @@ public class CustomerControllerTests {
     @Test
     public void givenGetCustomers_thenReturnWith200AndCustomers() throws Exception {
         mockMvc.perform(get("/customers")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + "a45e53e4-e27a-4144-90fb-d3ce7a20e089")
             .contentType(MediaType.APPLICATION_JSON))
 
             .andExpect(jsonPath("$.length()", is(2)))
@@ -122,6 +137,7 @@ public class CustomerControllerTests {
     @Test
     public void givenPostCustomer_thenReturnWith201AndCustomer() throws Exception {
         mockMvc.perform(post("/customers")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + "a45e53e4-e27a-4144-90fb-d3ce7a20e089")
             .contentType(MediaType.APPLICATION_JSON)
             .content(VALID_CREATE_USER_REQUEST_SVEN_JSON)
             .accept(MediaType.APPLICATION_JSON))
@@ -131,5 +147,22 @@ public class CustomerControllerTests {
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))
             .andExpect(status().isCreated());
     }
+
+    /*private String obtainExternalAccessToken() {
+        Map<String, String> params = new HashMap<>();
+
+        params.put("client_id", "fake-bank-backend");
+        params.put("username", "olof");
+        params.put("password", "password");
+        params.put("grant_type", "password");
+
+        Response response = RestAssured.given()
+            .contentType(ContentType.URLENC)
+            .formParams(params)
+            .post(TOKEN_URL);
+
+        return response.jsonPath()
+            .getString("access_token");
+    }*/
 
 }

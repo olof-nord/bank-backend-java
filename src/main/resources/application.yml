@@ -25,6 +25,15 @@ management:
     liquibase:
       enabled: false
 
+keycloak:
+  auth-server-url: http://localhost:8180/auth
+  realm: fake-bank-realm
+  resource: fake-bank-backend
+  public-client: true
+  principal-attribute: preferred_username
+  use-resource-role-mappings: true
+  ssl-required: external
+
 ---
 
 spring:
