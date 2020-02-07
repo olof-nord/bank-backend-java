@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: fake-bank-backend
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
