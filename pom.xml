@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>info.olof.bank</groupId>
-	<artifactId>fake-bank-backend</artifactId>
+	<artifactId>fake-bank-backend-java</artifactId>
 	<version>1.0.0</version>
-	<name>fake-bank-backend</name>
-	<description>Backend part of Fake Bank project</description>
+	<name>fake-bank-backend-java</name>
+	<description>Backend part of Fake Bank project - Java/Spring Boot</description>
     <packaging>jar</packaging>
 
 	<properties>
