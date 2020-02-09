@@ -1,5 +1,7 @@
-# bank-backend
+# fake-bank-backend
 Fake Bank - Java/Spring Boot Backend
+
+This is a demo project, vaguely to offer a banking-api, but more just to try out new ideas and continue on topics I encounter in my day-to-day software engineering.
 
 # Requirements
 ## Software
