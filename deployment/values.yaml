@@ -7,7 +7,8 @@ replicaCount: 1
 image:
   repository: fake-bank-backend
   tag: latest
-  pullPolicy: Always
+  # As this is only used with Minikube, there is no registry to pull from
+  pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""

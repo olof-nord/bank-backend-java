@@ -12,13 +12,6 @@ This is a demo project, vaguely to offer a banking-api, but more just to try out
 * Minikube
 
 This is set up using minikube.
-Note about installing: latest helm (v2.14.3) is not compatible with Kubernetes 1.16.0.
-
-As workaround, configure minikube with an older version.
-
-`minikube config set kubernetes-version 1.15.4`
-
-https://github.com/helm/helm/issues/6374
 
 ## Tooling
 * Maven
@@ -26,11 +19,16 @@ https://github.com/helm/helm/issues/6374
 * Task (https://taskfile.dev)
 * Skaffold (https://skaffold.dev)
 
+Note about installing: Helm 3 supports Kubernetes 1.17, however skaffold only supports Helm 2.
+AUR has a helpful `kubernetes-helm2` package to downgrade easily.
+
+https://github.com/GoogleContainerTools/skaffold/issues/2142 
+
 # Start
 `skaffold dev --port-forward`
 
 Manual deploy (requires Docker images)  
-`helm upgrade --install --name fake-bank-backend .`
+`helm upgrade --install fake-bank-backend .`
 
 Update the child charts:  
 `helm dependency update`
