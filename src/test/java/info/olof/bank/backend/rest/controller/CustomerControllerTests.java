@@ -56,10 +56,10 @@ public class CustomerControllerTests {
 
     private static final String VALID_CREATE_USER_REQUEST_SVEN_JSON =
         "{"
-            + "    \"firstName\": \"Sven\","
-            + "    \"lastName\": \"Svensson\","
+            + "    \"first_name\": \"Sven\","
+            + "    \"last_name\": \"Svensson\","
             + "    \"email\" : \"sven.svensson@gmail.com\","
-            + "    \"dateOfBirth\" : \"1970-01-01\","
+            + "    \"date_of_birth\" : \"1970-01-01\","
             + "    \"nationality\" : \"German\""
         + "}";
 
@@ -96,8 +96,8 @@ public class CustomerControllerTests {
         mockMvc.perform(get("/customers/" + MOCK_CUSTOMER_SVEN.getId())
             .contentType(MediaType.APPLICATION_JSON))
 
-            .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
-            .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
+            .andExpect(jsonPath("$.first_name", is(MOCK_CUSTOMER_SVEN.getFirstName())))
+            .andExpect(jsonPath("$.last_name", is(MOCK_CUSTOMER_SVEN.getLastName())))
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))
             .andExpect(status().isOk());
     }
@@ -126,8 +126,8 @@ public class CustomerControllerTests {
             .content(VALID_CREATE_USER_REQUEST_SVEN_JSON)
             .accept(MediaType.APPLICATION_JSON))
 
-            .andExpect(jsonPath("$.firstName", is(MOCK_CUSTOMER_SVEN.getFirstName())))
-            .andExpect(jsonPath("$.lastName", is(MOCK_CUSTOMER_SVEN.getLastName())))
+            .andExpect(jsonPath("$.first_name", is(MOCK_CUSTOMER_SVEN.getFirstName())))
+            .andExpect(jsonPath("$.last_name", is(MOCK_CUSTOMER_SVEN.getLastName())))
             .andExpect(jsonPath("$.email", is(MOCK_CUSTOMER_SVEN.getEmail())))
             .andExpect(status().isCreated());
     }

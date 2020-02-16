@@ -17,18 +17,18 @@ class CustomerAPITest extends BaseComponentTest {
         HttpClient.Response addUserResponse = HttpClient.request().withUrl("/customers")
             .withHeaders(["Content-Type": "application/json"])
             .withBody([
-                "firstName": firstName,
-                "lastName": lastName,
+                "first_name": firstName,
+                "last_name": lastName,
                 "email": "address@email.com",
-                "dateOfBirth": "1970-01-01"
+                "date_of_birth": "1970-01-01"
             ])
             .create()
             .post()
 
         then: "The request is successful"
         addUserResponse.statusCodeValue == 201
-        addUserResponse.json.firstName == firstName
-        addUserResponse.json.lastName == lastName
+        addUserResponse.json.first_name == firstName
+        addUserResponse.json.last_name == lastName
 
         and: "Dynamic values are correct"
         addUserResponse.json.id != null
@@ -48,10 +48,10 @@ class CustomerAPITest extends BaseComponentTest {
         HttpClient.Response addUserResponse = HttpClient.request().withUrl("/customers")
             .withHeaders(["Content-Type": "application/json"])
             .withBody([
-                "firstName": firstName,
-                "lastName": lastName,
+                "first_name": firstName,
+                "last_name": lastName,
                 "email": "address@email.com",
-                "dateOfBirth": "1970-01-01"
+                "date_of_birth": "1970-01-01"
             ])
             .create()
             .post()
