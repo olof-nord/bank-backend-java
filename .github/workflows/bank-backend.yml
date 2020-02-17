@@ -10,6 +10,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Lint Helm config
+      uses: docker://dtzar/helm-kubectl
+      with:
+        args: helm lint deployment/fake-bank-backend
+
     - name: Set up JDK 11
       uses: actions/setup-java@v1
       with:
