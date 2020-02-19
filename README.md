@@ -11,8 +11,6 @@ This is a demo project, vaguely to offer a banking-api, but more just to try out
 * Docker
 * Minikube
 
-This is set up using minikube.
-
 ## Tooling
 * Maven
 * Helm (https://helm.sh)
@@ -42,3 +40,7 @@ Manual delete
 # Debug
 Connect to a container:  
 `kubectl exec -it fake-bank-backend-database-0 bash`
+
+# API
+A rendered API specification of the endpoints used in the
+service can be found under http://localhost:8080/api-specifications 
